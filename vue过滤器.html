@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue基础--过滤器</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="example">
+        <!--{{ message | filterA | filterB }} 过滤器第一个参数是message!注意-->
+        <p> {{ text | capitalize | filterB('arg1',arg2()) }} </p>
+        <!--缩写  v-bind ===>: -->
+        <h5 v-bind:id="myId" :title="myTitle"></h5>
+        <!--缩写  v-on ===>@ -->
+        <h4 v-on:click="clickMe" @click="Alert">just 点我试试 </h4>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                message: 'what\'s wrong',
+                text: 'so do I',
+                myId: 'MYID',
+                myTitle: 'MYTITLE'
+            },
+            //过滤器:
+            filters: {
+                capitalize: function(value) {
+                    if (!value) return ''
+                    value = value.toString()
+                    return value.charAt(0).toUpperCase() + value.slice(1)
+                },
+                filterB: function(a, b, c) { //注意 ：：字符串 'arg1' 将传给过滤器作为第二个参数， arg2 表达式的值将被求值然后传给过滤器作为第三个参数
+                    var d;
+                    d = a + b + c;
+                    return d + ' 是的' //value ===> 表示自身的值
+                },
+            },
+            //方法：
+            methods: {
+                arg2: function() {
+                    return '2234'
+                },
+                clickMe: function() {
+                    console.log("我点击了")
+                },
+                Alert: function() {
+                    alert("我弹出了")
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

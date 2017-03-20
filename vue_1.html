@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue js</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        tr,
+        th,
+        td {
+            border: 1px solid #f00;
+        }
+
+        .pagination {
+            display: inline-block;
+            padding-left: 0;
+            margin: 21px 0;
+            border-radius: 3px;
+        }
+
+        .pagination>li {
+            display: inline;
+        }
+
+        .pagination>li>a {
+            position: relative;
+            float: left;
+            padding: 6px 12px;
+            line-height: 1.5;
+            text-decoration: none;
+            color: #009a61;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin-left: -1px;
+            list-style: none;
+        }
+
+        .pagination .active {
+            color: #fff;
+            background-color: #009a61;
+            border-left: none;
+            border-right: none;
+        }
+    </style>
+    <script type="text/javascript" src="vue.js"></script>
+</head>
+
+<body>
+
+    <!--这是我们的View-->
+    <div id="app">
+        <p>{{ message }}</p>
+        <input type="text" v-model='message'>
+        <h1 v-if='yes'>Yes I can see</h1>
+        <h2 v-if='no'>No I can see</h2>
+        <h3 v-if='age >= 25'>Age:{{age}}</h3>
+        <h4 v-if='name.indexOf("ja") >= 0'> Name:{{name}}</h4>
+        <h5 v-show='bg'>我是</h5>
+    </div>
+    <section id="aaa">
+        <h1 v-if="age>=25">Age: {{ age }}</h1>
+        <h1 v-else>Name: {{ name }}</h1>
+        <h1>---------------------分割线---------------------</h1>
+        <h1 v-if="name.indexOf('keep') >= 0">Name: {{ name }}</h1>
+        <h1 v-else>Sex: {{ sex }}</h1>
+    </section>
+    <section id="table">
+        <table>
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for='person in some'>
+                    <td> {{ person.name }} </td>
+                    <td> {{ person.age }} </td>
+                    <td> {{ person.sex }} </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!--bind 指令 这个参数通常是HTML元素的特性（attribute）-->
+    <section id="sum">
+        <ul class="pagination">
+            <li v-for="n in pageCount">
+                <a href="javascripit:void(0)" v-bind:class="activeNumber === n ? 'active' : ''">{{ n }}</a>
+            </li>
+        </ul>
+    </section>
+    <!--v-bind指令可以缩写为一个冒号，v-on指令可以缩写为@符号。-->
+    <!--on 指令 监听DOM事件-->
+    <section id="lister">
+        <p>
+            <input type="text" v-model="message">
+        </p>
+        <p>{{message}}</p>
+        <p>
+            <button type="button" name="button" v-on:click="greet">Greet</button>
+        </p>
+        <p>
+            <button type="button" name="button" v-on:click="say('Hi你妈呀')">Hi</button>
+        </p>
+    </section>
+    <script>
+        //此时注意 {{value}} 代表的是数据值
+        // 这是我们的Model
+        var exampleData = {
+            message: 'Hello World!',
+            yes: true,
+            no: false,
+            age: 30,
+            name: 'javascript',
+            bg: true
+        }
+
+        // 创建一个 Vue实例或 "ViewModel"
+        // 它连接 View 与 Model
+        var vm = new Vue({
+            el: '#app',
+            data: exampleData
+        })
+
+
+        var vm1 = new Vue({
+            el: "#aaa",
+            data: {
+                age: 27,
+                name: "keepfool",
+                sex: "Male"
+            }
+        })
+
+        var arr = {
+            some: [{
+                name: 'Jack',
+                age: 30,
+                sex: 'Male'
+            }, {
+                name: 'Bill',
+                age: 26,
+                sex: 'Female'
+            }, {
+                name: 'Tracy',
+                age: 28,
+                sex: 'Male'
+            }]
+        }
+
+        var vm2 = new Vue({
+            el: '#table',
+            data: arr
+        })
+
+        var vm3 = new Vue({
+            el: "#sum",
+            data: {
+                activeNumber: 1,
+                pageCount: 10
+            }
+        })
+
+        var vm3 = new Vue({
+            el: "#lister",
+            data: {
+                message: 'Hello Vue.js!'
+            },
+            // 在 `methods` 对象中定义方法
+            methods: {
+                greet: function() {
+                    // 方法内 `this` 指向 vm
+                    console.log(this);
+                    alert(this.message);
+                },
+                say: function(msg) {
+                    alert(msg)
+                }
+            }
+        })
+    </script>
+
+</html>
+</body>
+
+</html>

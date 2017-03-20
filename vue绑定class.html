@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue class 与 style绑定</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="example">
+        <!--同时也可以直接进行三目运算-->
+        <a href="javascript:;" v-bind:class="isActive? activeClass: '' ">fdsf</a>
+        <!--对象语法绑定 class  原class不会覆盖 注意class是-链接的用引号-->
+        <p v-bind:class="{ active:isActive,'text-danger':hasError}" class="myclass"> 想要我做什么呢？</p>
+        <!--绑定返回！对象！的计算属性-->
+        <h4 v-bind:class="classObject">我是</h4>
+        <h5 v-bind:class="classStyle">我干嘛的</h5>
+        <!--数组语法-->
+        <h3 v-bind:class="classArray">我是数组语法</h3>
+        <!--这种语法相当于第一种对象绑定的语法-->
+        <div v-bind:class="[activeClass,errorClass]">我也是</div>
+        <!--三目表达式数组语法-->
+        <div v-bind:class="[!isActive ? activeClass : '',errorClass]">我是三目运算的class</div>
+        <!--数组语法（多重条件）-->
+        <p v-bind:class="[{active:isActive},errorClass]">复杂的运算</p>
+        <!--组件-->
+        <my-component v-bind:class="{ active:isActive }"></my-component>
+        <!--绑定内联样式-->
+        <div v-bind:style="{color:activeColor,fontSize:fontSize + 'px'}">我是内联样式区</div>
+        <div v-bind:style="styleObject">我是内联样式区</div>
+        <!--内联多重绑定-->
+        <div v-bind:style="[baseStyles, overridingStyles]">多重内联样式</div>
+
+    </div>
+    <script type="text/javascript">
+        Vue.component('my-component', {
+            template: '<p>我是自定义内容</p>'
+        })
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                isActive: true,
+                hasError: true,
+                //class 用对象进行绑定
+                classObject: {
+                    'active': true,
+                    'text-danger': false
+                },
+                activeClass: 'active',
+                errorClass: 'text-danger',
+                classArray: [{
+                    activeClass: false,
+                    errorClass: 'true'
+                }],
+                //内联样式
+                activeColor:'#5b554b',
+                fontSize:40,
+                styleObject:{
+                  fontSize:'28px',
+                  color:'#ff5c01'
+                },
+                baseStyles:{
+                  fontSize:'30px',
+                  textAlign:'center',
+                  height:'80px',
+                  lineHeight:'80px'
+                },
+                overridingStyles:{
+                  color:'#fff',
+                  background:'#333'
+                }
+            },
+            computed: {
+                classStyle: function() {
+                    return {
+                        'active': this.isActive && !this.hasError,
+                        'text-danger': this.isActive && this.hasError
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

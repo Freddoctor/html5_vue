@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 自定义组件</title>
+    <script type="text/javascript" src="vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app-7">
+        <ol>
+            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+        </ol>
+    </div>
+
+    <div id="example">
+        <!--自定义组件-->
+        <my-component></my-component>
+    </div>
+    <script type="text/javascript">
+        //要注册一个全局组件，你可以使用 Vue.component(tagName, options)
+        // 注册
+        var swiperAttr = {
+            'background-color': '#f60',
+            'font-size': '20px',
+            'color':'#fff'
+        }
+        var str = '';
+        for (var variable in swiperAttr) {
+            str += variable + ':' + swiperAttr[variable] + ';'
+        }
+        Vue.component('my-component', {
+                template: '<div style=' + str + '>A custom component!</div>'
+            })
+            // 创建根实例
+        new Vue({
+                el: '#example'
+            })
+            //自定义一个标签
+        Vue.component('todo-item', {
+            props: ['todo'], //属性名称
+            template: '<li>{{ todo.text }}</li>' //内容
+        })
+        var app7 = new Vue({
+            el: '#app-7',
+            data: {
+                groceryList: [{
+                    text: 'Vegetables'
+                }, {
+                    text: 'Cheese'
+                }, {
+                    text: 'Whatever else humans are supposed to eat'
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>

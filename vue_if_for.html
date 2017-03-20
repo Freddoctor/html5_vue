@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue js for and if 条件判断</title>
+    <script src="vue.js"></script>
+    <script type="text/javascript">
+    </script>
+</head>
+
+<body>
+
+    <div id="app">
+        <input type="text" v-model="message" v-on:blur="target" />
+        <p v-if="seen">{{ message }}</p>
+        <span v-for="todo in todoList">
+          {{ todo.text }}
+        </span>
+        <button v-on:click="reserveMassage">点我会变</button>
+        <ul>
+            <!--自定义组件-->
+            <todo-item v-for="item in groceryList" v-bind:todo="item"></todo-item>
+        </ul>
+    </div>
+    <script type="text/javascript">
+        // Vue.component('todo-item',{
+        //   template:'<h2>这是一个待办项</h2>'
+        // })
+        Vue.component('todo-item', {
+            props: ['todo'], //自定义属性！！！
+            template: '<li>{{ todo.text }}</li>' //此时内容也特么改了！！！
+        })
+        var app1 = new Vue({
+            el: '#app',
+            data: {
+                seen: true,
+                message: ' ',
+                todoList: [{
+                    text: '学习好javascript'
+                }, {
+                    text: '再学习vue'
+                }, {
+                    text: '最后再整个牛项目'
+                }],
+                groceryList: [{
+                    text: '蔬菜'
+                }, {
+                    text: '奶酪'
+                }, {
+                    text: '随便其他什么人吃的东西'
+                }]
+            },
+            methods: {
+                //动态输入文本插入到列表中
+                target: function() {
+                    app1.todoList.push({
+                        text: app1.message
+                    })
+                },
+                reserveMassage: function() {
+                    this.message = this.message.split('').reverse().join('');
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

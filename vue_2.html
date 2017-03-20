@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue js 实例</title>
+    <script type="text/javascript" src="vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <fieldset>
+            <legend>
+                Create New Person
+            </legend>
+            <div class="form-group">
+                <label>Name:</label>
+                <input type="text" v-model="newPerson.name" />
+            </div>
+            <div class="form-group">
+                <label>Age:</label>
+                <input type="text" v-model="newPerson.age" />
+            </div>
+            <div class="form-group">
+                <label>Sex:</label>
+                <select v-model="newPerson.sex">
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+                <label>新增</label>
+                <button v-on:click="creatPerson">Create</button>
+            </div>
+        </fieldset>
+        <table>
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for='(person,index) in someOne'>
+                    <td>{{person.name}}</td>
+                    <td>{{person.age}}</td>
+                    <td>{{person.sex}}</td>
+                    <td v-on:click='deletePerson(index)'>删除</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: "#app",
+            //存储数据区域:
+            data: {
+                newPerson: {
+                    name: '',
+                    age: 0,
+                    sex: 'Male'
+                },
+                someOne: [{
+                    name: 'Jack',
+                    age: 88,
+                    sex: 'Famale'
+                }, {
+                    name: 'Fled',
+                    age: 20,
+                    sex: 'Male'
+                }, {
+                    name: 'Subss',
+                    age: 25,
+                    sex: 'Famale'
+                }]
+            },
+            //方法自定义
+            methods: {
+                creatPerson: function() {
+                    this.someOne.push(this.newPerson);
+                    // 添加完newPerson对象后，重置newPerson对象
+                    this.newPerson = {
+                        name: '',
+                        age: 0,
+                        sex: 'Male'
+                    }
+                },
+                //索引
+                deletePerson: function(index) {
+                    // console.log(index)
+                    this.someOne.splice(index, 1)
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

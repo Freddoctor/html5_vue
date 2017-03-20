@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue 插值</title>
+  <script src="vue.js"></script>
+</head>
+<body>
+<div id="back">
+  <span v-once>{{ message.split('').reverse().join('') }}</span> <!--once 只第一次赋值有效-->
+  <p v-html="rawHtml"></p> <!--html 渲染innerHTML字符串-->
+  <!--属性值-->
+  <h5 v-bind:id="dynamicId">属性值</h5>
+  <input type="text" v-bind:readonly="someRead" v-bind:disabled="someDynamic">
+  <h4 v-bind:data-code="num + 1">
+    {{ num + 1}}
+  </h4>
+  <!-- 有个限制就是，每个绑定都只能包含单个表达式 -->
+  <h4 v-bind:data-index="ok" v-bind:id="'list-' + id">
+    {{ok > 0 ? 'yes' : 'no'}}
+  </h4>
+  <a v-bind:title="url" v-on:click="doThis">我开始跳转</a>
+  <!-- . 指明的特殊后缀，用于指出一个指令应该以特殊方式绑定  prevent即为event.preventDefault()-->
+  <form v-on:submit.prevent="onSubmit">
+      <input type="text" value="空" placeholder="请输入" >
+      <input type="submit" value="提交">
+  </form>
+</div>
+<script type="text/javascript">
+  //Directives 指令 是带有 v- 前缀的特殊属性 v-if v-for 之类
+  var  vm = new Vue({
+    el:'#back',
+    data:{
+      message:'我为空',
+      rawHtml:'<span>YOU ARE SURE</span>',//内部innerHTML
+      dynamicId:'just',
+      someDynamic:'',
+      someRead:'true',
+      num:1,
+      ok:0,
+      id:'my',
+      url:'http://www.baidu.com',//在这里href是参数,告知v-bind指令将该元素的href属性与表达式url的值绑定
+    },
+    methods:{
+      doThis:function(){
+        alert("到我了");
+        return false;
+      },
+      onSubmit:function(){
+        console.log("提交了数据")
+      }
+    }
+  })
+</script>
+</body>
+</html>

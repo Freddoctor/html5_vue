@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style media="screen">
+        figure {
+            width: 200px;
+            height: 60px;
+            margin: 50px auto;
+            cursor: pointer;
+            perspective: 500px;
+            -webkit-perspective: 500px;
+        }
+
+        figure div {
+            height: 100%;
+            transform-style: preserve-3d;
+            -webkit-transform-style: preserve-3d;
+            transition: 0.25s;
+            -webkit-transition: 0.25s;
+        }
+
+        figure:hover div {
+            transform: rotateX(-90deg);
+        }
+
+        span.face {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            box-sizing: border-box;
+            border: 5px solid #fff;
+            /* font-family: 'Source Sans Pro',sans-serif; */
+            /* line-height: 50px; */
+            /* font-size: 17pt; */
+            /* text-align: center; */
+            /* text-transform: uppercase; */
+        }
+
+        span.face:nth-child(1) {
+            color: #fff;
+            transform: translate3d(0, 0, 30px);
+            -webkit-transform: translate3d(0, 0, 30px);
+        }
+
+        span.face:nth-child(2) {
+            color: #094b2c;
+            background: #fff;
+            transform: rotateX(90deg) translate3d(0, 0, 30px);
+            -webkit-transform: rotateX(90deg) translate3d(0, 0, 30px);
+        }
+
+        body {
+            background: #094b2c;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            -webkit-transform: translate(-50%, -50%);
+            margin: 0;
+        }
+
+        .rect-wrap {
+            position: relative;
+            perspective: 1600px;
+        }
+
+        .container {
+            width: 800px;
+            height: 800px;
+            transform-style: preserve-3d;
+            transform-origin: 50% 50% 200px; /*设置3d空间的原点在平面中心再向Z轴移动200px的位置*/
+        }
+
+        .slide {
+            width: 400px;
+            height: 400px;
+            position: absolute;
+        }
+
+        .top {
+            left: 200px;
+            top: -200px;
+            transform: rotateX(-90deg);
+            transform-origin: bottom;
+            background: #ccc;
+        }
+
+        .bottom {
+            left: 200px;
+            bottom: -200px;
+            transform: rotateX(90deg);
+            transform-origin: top;
+            background: #f00;
+        }
+
+        .left {
+            left: -200px;
+            top: 200px;
+            transform: rotateY(90deg);
+            transform-origin: right;
+            background: #ff5c01;
+        }
+
+        .right {
+            left: 600px;
+            top: 200px;
+            transform: rotateY(-90deg);
+            transform-origin: left;
+            background: #000;
+        }
+
+        .front {
+            left: 200px;
+            top: 200px;
+            transform: translateZ(400px); /*立方体前面正对着屏幕，所以不用旋转，只需向Z轴前移动距离*/
+            background: #fff;
+        }
+
+        .back {
+            left: 200px;
+            top: 200px;
+            transform: translateZ(0); /*立方体后面正对着屏幕，所以不用旋转，只需向Z轴后移动距离*/
+            background: #abc;
+        }
+
+        @keyframes rotate-frame {
+            0% {
+                transform: rotateX(0deg) rotateY(0deg);
+            }
+            10% {
+                transform: rotateX(0deg) rotateY(180deg);
+            }
+            20% {
+                transform: rotateX(-180deg) rotateY(180deg);
+            }
+            30% {
+                transform: rotateX(-360deg) rotateY(180deg);
+            }
+            40% {
+                transform: rotateX(-360deg) rotateY(360deg);
+            }
+            50% {
+                transform: rotateX(-180deg) rotateY(360deg);
+            }
+            60% {
+                transform: rotateX(90deg) rotateY(180deg);
+            }
+            70% {
+                transform: rotateX(0) rotateY(180deg);
+            }
+            80% {
+                transform: rotateX(90deg) rotateY(90deg);
+            }
+            90% {
+                transform: rotateX(90deg) rotateY(0);
+            }
+            100% {
+                transform: rotateX(0) rotateY(0);
+            }
+        }
+
+        .container {
+            /*animation: rotate-frame 30s linear infinite;*/
+            transition: 5s all;
+        }
+    </style>
+</head>
+
+<body>
+    <figure>
+        <div>
+            <span class="face">Hover Me</span>
+            <span class="face">Button</span>
+        </div>
+    </figure>
+    <div class="rect-wrap">
+        <div class="container">
+            <div class="top slide"></div>
+            <!-- <div class="bottom slide"></div>
+            <div class="left slide"></div>
+            <div class="right slide"></div> -->
+            <div class="front slide"></div>
+            <!-- <div class="back slide"></div> -->
+        </div>
+    </div>
+</body>
+
+</html>

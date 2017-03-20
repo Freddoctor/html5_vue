@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>vue 条件</title>
+  <script src="vue.js"></script>
+</head>
+<body>
+  <div id="example">
+    <h1 v-if="ok">Yes</h1>
+    <h1 v-else>No</h1>
+    <h2 v-if="Math.random() > 0.5">Now you see me</h2>
+    <h2 v-else>你不该看到我</h2>
+    <p>
+      <a href="javascript:;" v-if="type === 'A'">A</a>
+      <a href="javascript:;" v-else-if="type === 'B'">B</a>
+      <a href="javascript:;" v-else-if="type === 'C'">C</a>
+      <a href="javascript:;" v-else>Not A/B/C</a>
+    </p>
+    <!--注意没用key进行绑定时值共享的 当绑定时数据重新刷新了 -->
+    <form v-if="loginType === 'username'" key="username-input">
+      <label>Username</label>
+      <input placeholder="Enter your username">
+    </form>
+    <form v-else>
+      <label>Email</label>
+      <input placeholder="Enter your Email" key="email-input">
+    </form>
+    <button v-on:click="fuc">Toggle login type</button>
+    <h3 v-show="yesNo">我是show</h3>
+  </div>
+  <!--异次元空间 简而言之 不知道干嘛用的-->
+  <template  v-if="ok">
+    <h1>Title</h1>
+    <p>Paragraph 1</p>
+  </template>
+  <script type="text/javascript">
+    var vm = new Vue({
+      el:'#example',
+      data:{
+        ok:true,
+        type:'C',
+        loginType:'username',
+        yesNo:false
+      },
+      methods:{
+        fuc:function(){
+          this.loginType = (this.loginType === 'username') ? 'email' : 'username'
+        }
+      }
+    })
+  </script>
+</body>
+</html>

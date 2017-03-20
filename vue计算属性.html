@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue基础 --计算属性</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="example">
+        <p>{{ message.split('').reverse().join('') }} </p>
+        <p>Original message: "{{ message }}"</p>
+        <p>Computed reversed message: "{{ reversedMessage + ':' + now}}"</p>
+        <!--绑定点击事件 然后{{}}中数据已经执行了 所以会触发事件-->
+        <p v-on:click="newReverse">{{newReverse()}}</p>
+        <h3>{{fullName}}</h3>
+        <h4>展示get和set: {{ newFullName }}</h4>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                message: '我开始方了!',
+                firstName: 'Foo',
+                lastName: 'Bar',
+                fullName: 'Foo Bar',
+                first: 'John',
+                last: 'Doe',
+                //newFullName:'John Doe' 当它注释时 : 后续set和get才会执行 有缓存
+            },
+            //内部计算
+            computed: {
+                //计算属性是基于它们的依赖进行缓存的
+                reversedMessage: function() {
+                    return this.message.split('').reverse().join('');
+                },
+                now: function() {
+                    return Date.now()
+                },
+                fullName: function() {
+                    return this.first + this.last;
+                },
+                newFullName: {
+                    //计算属性默认只有 getter
+                    get: function() {
+                        return this.first + ' ' + this.last
+                    },
+                    //在需要时你也可以提供一个 setter
+                    set: function(val) {
+                        var names = val.split(' ');
+                        this.first = names[0];
+                        this.last = names[names.length - 1];
+                    }
+                }
+            },
+            //方法
+            methods: {
+                newReverse: function() {
+                    console.log("变了" + new Date().getTime());
+                    return this.message.split('').reverse().join('');
+                }
+            },
+            //监听事件
+            watch: {
+                firstName: function(val) {
+                    this.fullName = val + this.lastName;
+                },
+                lastName: function(val) {
+                    this.fullName = this.firstName + val;
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
