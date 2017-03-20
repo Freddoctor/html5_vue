@@ -1,62 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>vue 事件处理</title>
-  <script src="vue.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 事件处理</title>
+    <script src="vue.js"></script>
 </head>
+
 <body>
-  <div id="example">
-    <button type="button" name="button" v-on:click="count += 1">点我自增</button>
-    <p v-on:click="greet">这个按钮被点击了{{count}}</p>
-    <a href="javascript:;" v-on:click="say('hei')">Say Hei</a>
-    <a href="javascript:;" v-on:click="say('what')">Say What</a>
-    <!--$event 原生dom事件-->
-    <input type="submit" value="submit" v-on:click="warn('Form cannot be submitted yet.',$event)">
-    <!---事件修饰符---->
-    <section class="eventList">
-      <button type="button" name="button" v-on:click.stop="doThis($event)">阻止冒泡</button>
-      <form method="post" v-on:submit.prevent="onSubmit">
-          <input type="submit" name="button" value="阻止重载页面">
-      </form>
-      <button type="button" name="button" v-on:click.capture="doThis($event)">事件捕获</button>
-      <div v-on:click.self="doThis($event)">元素本身触发回调<i>不是我</i></div>
-      <button type="button" name="button" v-on:click.once="doThis($event)">点击事件触发一次</button>
-    </section>
-  </div>
-  <script type="text/javascript">
-      var example = new Vue({
-        el:'#example',
-        data:{
-          count:0,
-          name:'Vue事件'
-        },
-        methods:{
-          greet:function(event){
-            console.log(this.name);//`this` 在方法里指当前 Vue 实例
-            console.log(event.target); //事件源
-          },
-          say:function(message){
-            alert(message)
-          },
-          warn:function(message,event){
-            if(event) event.preventDefault(); //原生dom获取 阻止冒泡
-            alert(message);
-          },
-          onSubmit:function(){
-            alert("提交成功!")
-          },
-          doThis:function(event){
-            console.log(event.target); //事件源
-          }
-        }
-      })
-      // 也可以用 JavaScript 直接调用方法
-      //example.greet(event) // -> 'Hello Vue.js!' 但注意事件源可能找不到
-
-
-  </script>
+    <div id="example">
+        <button type="button" name="button" v-on:click="count += 1">点我自增</button>
+        <p v-on:click="greet">这个按钮被点击了{{count}}</p>
+        <a href="javascript:;" v-on:click="say('hei')">Say Hei</a>
+        <a href="javascript:;" v-on:click="say('what')">Say What</a>
+        <!--$event 原生dom事件-->
+        <input type="submit" value="submit" v-on:click="warn('Form cannot be submitted yet.',$event)">
+        <!---事件修饰符---->
+        <section class="eventList">
+            <button type="button" name="button" v-on:click.stop="doThis($event)">阻止冒泡</button>
+            <form method="post" v-on:submit.prevent="onSubmit">
+                <input type="submit" name="button" value="阻止重载页面">
+            </form>
+            <button type="button" name="button" v-on:click.capture="doThis($event)">事件捕获</button>
+            <div v-on:click.self="doThis($event)">元素本身触发回调<i>不是我</i></div>
+            <button type="button" name="button" v-on:click.once="doThis($event)">点击事件触发一次</button>
+        </section>
+        <br>
+        <!---按键修饰符---->
+        <section class="press">
+            <input type="text" v-on:keyup.enter="onSubmit">
+            <hr/>
+            <!--回退或者删除 时触发-->
+            <input type="text" v-on:keyup.delete.stop="onSubmit">
+            <hr/>
+            <!--tab esc  space up down left right-->
+            <input type="text" v-on:keyup.right.stop="onSubmit">
+            <hr/>
+            <!--新增 meta ctrl alt shift-->
+            <input type="text" v-on:keyup.alt="onSubmit">
+        </section>
+    </div>
+    <script type="text/javascript">
+        var example = new Vue({
+                el: '#example',
+                data: {
+                    count: 0,
+                    name: 'Vue事件'
+                },
+                methods: {
+                    greet: function(event) {
+                        console.log(this.name); //`this` 在方法里指当前 Vue 实例
+                        console.log(event.target); //事件源
+                    },
+                    say: function(message) {
+                        alert(message)
+                    },
+                    warn: function(message, event) {
+                        if (event) event.preventDefault(); //原生dom获取 阻止冒泡
+                        alert(message);
+                    },
+                    onSubmit: function() {
+                        alert("提交成功!");
+                        return;
+                    },
+                    doThis: function(event) {
+                        console.log(event.target); //事件源
+                    }
+                }
+            })
+            // 也可以用 JavaScript 直接调用方法
+            //example.greet(event) // -> 'Hello Vue.js!' 但注意事件源可能找不到
+    </script>
 </body>
+
 </html>

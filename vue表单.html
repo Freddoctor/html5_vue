@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue表单</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="example">
+        <!--双向绑定-->
+        <input type="text" v-model="message" placeholder="edit me">
+        <p>message is: {{message}}</p>
+        <!--多行文本-->
+        <div class="multi">
+            <span>Multiline message is:</span>
+            <p style="white-space:pre" hidden="hidden">{{text}}</p>
+            <br>
+            <textarea v-model="text" name="name" rows="8" cols="40"></textarea>
+        </div>
+        <!--复选框 单个勾选框，逻辑值-->
+        <div class="check">
+            <input type="checkbox" id="checkbox" v-model="checked">
+            <label for="checkbox"> {{ checked }}</label>
+        </div>
+        <!--多个勾选框绑定到同一个数组：-->
+        <div class="checkArry">
+            <input type="checkbox" id="jack" value="jack" v-model="checkedNames">
+            <label for="jack">Jack</label>
+            <input type="checkbox" id="john" value="john" v-model="checkedNames">
+            <label for="john">John</label>
+            <input type="checkbox" id="mike" value="mike" v-model="checkedNames">
+            <label for="mike">Mike</label>
+            <br>
+            <span>Checked names: {{ checkedNames }}</span>
+        </div>
+        <!--单选按钮-->
+        <div class="dan">
+            <input type="radio" id="one" value="One" v-model="picked">
+            <label for="one">One</label>
+            <br>
+            <input type="radio" id="two" value="Two" v-model="picked">
+            <label for="two">Two</label>
+            <p>Picked : {{picked}} </p>
+        </div>
+        <hr>
+        <!--选择列表-->
+        <div class="select">
+            <select v-model="selected">
+              <option value="a">A</option>
+              <option value="b">B</option>
+              <option value="c">C</option>
+            </select>
+            <span>selected {{selected}}</span>
+        </div>
+        <hr>
+        <!--多选列表-->
+        <div class="multiple">
+            <select v-model="mulselect" multiple style="width:100px;">
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+            </select>
+            <br>
+            <span>Selected: {{ mulselect }}</span>
+        </div>
+        <hr>
+        <!--动态选项-->
+        <div>
+            <select v-model="optionselected">
+            <option v-for="option in options" v-bind:value="option.value">
+              {{option.text}}
+            </option>
+          </select>
+            <span>{{ optionselected }}</span>
+        </div>
+        <!--绑定value -->
+        <br>
+    </div>
+    <br>
+    <br>
+    <div id="newval">
+        <input name="pic" type="radio" v-model="picked" value="a">
+        <label for="pic">电脑</label>
+        <input name="pic" type="radio" v-model="picked" value="b">
+        <label for="pic">手机</label>
+        <p>{{picked}}</p>
+        <div class="fuck">
+          <!-- lazy change 事件中同步  Number trim首尾去空 -->
+          <input type="text" v-model.trim.number.lazy="msg">
+          <p>{{msg}}</p>
+        </div>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                message: '',
+                text: '',
+                checked: true,
+                // 表单中  v-model 绑定的 value
+                checkedNames: ["jack"], //获取的是value中的值！
+                picked: 'One', //此时数据已经默认绑定第一个了
+                selected: 'a', //根据value来进行绑定数值
+                mulselect: ["A"], //展示列表中默认选中！
+                optionselected: 'A', //默认选中的value值
+                options: [{
+                    text: 'One',
+                    value: 'A'
+                }, {
+                    text: 'Two',
+                    value: 'B'
+                }, {
+                    text: 'Three',
+                    value: 'C'
+                }]
+            }
+        })
+        var example = new Vue({
+            el: '#newval',
+            data: {
+                picked: 'a',
+                toggle:'a',
+                msg:''
+            }
+        })
+    </script>
+</body>
+
+</html>

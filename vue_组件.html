@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue 组件</title>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <!--组件-->
+    <div id="some-element">
+        <my-component message="我是自定义的"></my-component>
+        <!--组件挂载在table上 注意-->
+        <ul>
+            <li is="my-rows"></li>
+        </ul>
+        <br>
+        <div class="newText">
+            <my-rows></my-rows>
+            <my-rows></my-rows>
+            <my-rows></my-rows>
+        </div>
+        <!--驼峰命名等-->
+        <div class="myHello">
+          <mymessage my-message="我爱怎么写怎么写!"></mymessage>
+        </div>
+    </div>
+
+    <script>
+        //Vue.component(tagName, options)
+        //实例创建之前 先自定义方法！
+        // Vue.component('my-component',{
+        //     template: '<div>A custom component!</div>'
+        // })
+
+        // props down, events up
+
+        //自定义对象 template 和 它的属性
+        var Child = {
+            props: ['message'], // 声明 props 子组件使用父组件的数据
+            template: '<div>{{message}}</div>',
+        }
+
+        var Rows = {
+            template: '<span style="background:#ff5c01;color:#fff;padding:0 10px" v-on:click="counter += 1">{{counter}}</span>',
+            data: function() { //data 必须是函数 自定义组件中！
+                return {
+                    counter: 0
+                }
+            }
+        }
+        //驼峰命名 访问自身数据
+        var CamelCase = {
+          props: ['myMessage'],
+          template:'<span>{{myMessage}}</span>',
+        }
+
+        var vm1 = new Vue({
+            el: "#some-element",
+            data: {
+                message: '我是谁'
+            },
+            components: {
+                'my-component': Child,
+                'my-rows': Rows,
+                'mymessage':CamelCase,
+            }
+        })
+    </script>
+</body>
+
+</html>
