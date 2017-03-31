@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义事件</title>
+    <script src="vue.js"></script>
+</head>
+
+<body>
+    <div id="example">
+        <p>{{ total }}</p>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <button-counter v-on:increment="incrementTotal"></button-counter>
+        <!--监听一个原生事件-->
+        <button-counter v-on:click.native="doTheThing"></button-counter>
+        <!--自定义事件表单输入组件-->
+        <div class="input">
+            <!-- <input type="text" v-bind:value="something" v-on:input="something=$event.target.value"> -->
+            <currency-input></currency-input>
+        </div>
+    </div>
+    <script>
+        //自定义事件 :
+        var custom = {
+                template: '<button v-on:click="increment">{{ counter }}</button>',
+                data: function() {
+                    return {
+                        counter: 0
+                    }
+                },
+                methods: {
+                    increment: function() {
+                        this.counter += 1;
+                        //将事件给传递出去
+                        this.$emit('increment'); //使用 $on(eventName) 监听事件 ===> 使用 $emit(eventName) 触发事件
+                    }
+                }
+            }
+            //表单输入组件:
+        var currency = {
+            template: '\
+            <span>\
+              $\
+              <input\
+                ref="input"\
+                v-bind:value="value"\
+                v-on:input="updateValue($event.target.value)"\
+              >\
+            </span>\
+          ',
+            props: ['value'],
+            methods: {
+                // 不是直接更新值，而是使用此方法来对输入值进行格式化和位数限制
+                updateValue: function(value) {
+                    var formattedValue = value
+                        // 删除两侧的空格符
+                        .trim()
+                        // 保留 2 小数位
+                        .slice(0, value.indexOf('.') + 3)
+                        // 如果值不统一，手动覆盖以保持一致
+                    if (formattedValue !== value) {
+                        this.$refs.input.value = formattedValue
+                    }
+                    // 通过 input 事件发出数值
+                    this.$emit('input', Number(formattedValue))
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                total: 0,
+                something: '',
+                value: null,
+                price: ''
+            },
+            methods: {
+                incrementTotal: function() {
+                    this.total += 1; //每点击一次 ==> +1 (所有都共享这个值)
+                },
+                doTheThing: function() {
+                    console.log("？？" + new Date().getTime())
+                }
+            },
+            components: {
+                'button-counter': custom,
+                'currency-input': currency
+            }
+        })
+
+        var bus = new Vue().$emit('#example');
+        console.log(bus.$el)
+    </script>
+</body>
+
+</html>

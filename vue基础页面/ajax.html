@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue - 列表 </title>
+    <script src="vue.js"></script>
+    <style media="screen">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            color: #fefefe;
+        }
+
+        img {
+            border: none;
+            vertical-align: middle;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        i,
+        em,
+        ins {
+            font-style: normal;
+            font-weight: normal;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        body {
+            background: #333;
+        }
+
+        .rrbx_product {
+            width: 100%;
+            padding: 28px 5% 0;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            overflow: hidden;
+            background: #666;
+        }
+
+        .rrbx_product a {
+            display: block;
+            position: relative;
+        }
+
+        .rrbx_product a>img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .rrbx_product a h3 {
+            position: absolute;
+            width: 100%;
+            top: 35%;
+            left: 0;
+            text-align: center;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .rrbx_product a h4 {
+            text-align: center;
+            font-size: 16px;
+            line-height: 28px;
+            color: #fefefe;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="list">
+        <aside v-if="conpany === 0">
+            <section v-for="(item,key,index) in items" class="rrbx_product">
+                <a  href="javascript:;">
+                    <img :src=item.icon>
+                    <h3 >{{item.title}}</h3>
+                    <h4 v-on:click="check">{{item.feature}}</h4>
+                </a>
+            </section>
+        </aside>
+        <aside v-else-if="conpany === 1">
+            <section v-for="(item,key,index) in homes" class="tag">
+                <div href="javascript:;" :data-tag="item.tag">
+                    <img :src=item.icon>
+                    <span :class="!key ? 'hover' : '' " v-on:click="check">{{item.title}} --- {{ key }}</span>
+                </div>
+            </section>
+        </aside>
+    </div>
+    <script src="https://unpkg.com/axios@0.12.0/dist/axios.min.js"></script>
+    <script src="https://unpkg.com/lodash@4.13.1/lodash.min.js"></script>
+    <script type="text/javascript">
+        var message = null;
+        var vm = new Vue({
+            el: '#list',
+            data: {
+                items: '',
+                homes: '',
+                conpany: 0,
+                hover: "hover"
+            },
+            methods: {
+                getAjax: function(url, target, value, attr) {
+                    axios.get(url)
+                        .then(function(res) {
+                            if (res.data.code === 10000) {
+                                if (attr) {
+                                    target[value] = res.data.response[attr];
+                                } else {
+                                    target[value] = res.data.response
+                                }
+                            }
+                            console.log(res.data) //自动解析成json格式! 强大功能
+                        })
+                        .catch(function(error) {
+                            target[value] = 'Error! Could not reach the API. ' + error
+                        })
+                },
+                getAnswer: function() {
+                    //由于跨域问题所以用以txt文本仿
+                    this.getAjax('list.txt', this, 'items');
+                },
+                getHome: function() {
+                    this.getAjax.call(this, 'home.txt', this, 'homes', 'kin');
+                },
+                check: function() {
+                    var num = this.conpany;
+                    num == 0 ? num = 1 : num = 0;
+                    this.conpany = num;
+                }
+            },
+        })
+        vm.getAnswer();
+        vm.getHome();
+    </script>
+</body>
+
+</html>

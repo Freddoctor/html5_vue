@@ -33,6 +33,13 @@
         <div class="myHello">
           <mymessage my-message="我爱怎么写怎么写!"></mymessage>
         </div>
+        <!--动态prop绑定   v-bind 用来锁定数值属性Number类型的-->
+        <div class="mode" v-bind:some-prop="1">
+          <input type="text" v-model="parentMsg">
+          <p>
+            <child :my-message="parentMsg"></child>
+          </p>
+        </div>
     </div>
 
     <script>
@@ -64,15 +71,23 @@
           template:'<span>{{myMessage}}</span>',
         }
 
+        //动态绑定prop
+        var child = {
+          props:['myMessage'],
+          template:'<span> {{ myMessage }} </span>'
+        }
+
         var vm1 = new Vue({
             el: "#some-element",
             data: {
-                message: '我是谁'
+                message: '我是谁',
+                parentMsg:''
             },
             components: {
                 'my-component': Child,
                 'my-rows': Rows,
                 'mymessage':CamelCase,
+                'child':child, //前面表明标签的名字
             }
         })
     </script>
